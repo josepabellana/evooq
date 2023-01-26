@@ -1,0 +1,19 @@
+{
+  "name": "frontend-hospital",
+  "version": "1.0.0",
+  "description": "The project is compatible with NPM 16.\r It was not tested with previous version.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josepabellana/evooq.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josepabellana/evooq/issues"
+  },
+  "homepage": "https://github.com/josepabellana/evooq#readme"
+}
