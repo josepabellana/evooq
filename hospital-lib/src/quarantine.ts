@@ -14,11 +14,15 @@ export class Quarantine {
     }
 
     public wait40Days(): void {
-        for(let patient in Object.keys(this.patients)){
-            console.log(patient);
+        let newPatients:PatientsRegister = {};
+        for(let groupPatient in this.patients){
+            if(groupPatient !== 'X') this.evaluateMedicines(newPatients, groupPatient,this.drugs);
         }
     }
     public report(): PatientsRegister {
         return this.patients;
+    }
+    public evaluateMedicines(newPatients:PatientsRegister, patientType:string,drugs: Array<string>){
+        
     }
 }
