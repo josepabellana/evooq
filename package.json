@@ -4,7 +4,8 @@
   "description": "The project is compatible with NPM 16.\r It was not tested with previous version.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "git add . && git commit -m 'x' && git push"
   },
   "repository": {
     "type": "git",
