@@ -3,20 +3,22 @@ import {PatientsRegister} from './patientsRegister';
 export class Quarantine {
 
     private static readonly NOT_IMPLEMENTED_MESSAGE = 'Work, work.';
-
+    patients:PatientsRegister = {};
+    drugs:Array<string> = [];
     constructor(patients: PatientsRegister) {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        this.patients = patients;
     }
 
     public setDrugs(drugs: Array<string>): void {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        this.drugs = drugs;
     }
 
     public wait40Days(): void {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        for(let patient in Object.keys(this.patients)){
+            console.log(patient);
+        }
     }
-
     public report(): PatientsRegister {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        return this.patients;
     }
 }
