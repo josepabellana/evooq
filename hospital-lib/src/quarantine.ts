@@ -19,7 +19,7 @@ export class Quarantine {
     public wait40Days(): void {
         this.calculateActions();
         let newPatients:PatientsRegister = {
-            X: this.patients['D'],
+            X: this.patients['X'],
             F: 0, H: 0, D: 0, T: 0, 
         };
         for(let groupPatient in this.patients){
@@ -51,26 +51,30 @@ export class Quarantine {
         // 4. Cured
         
         for(let groupPatient in this.patients){
-            if(this.drugs.includes('I') && this.drugs.includes('As')){
+            if(this.drugs.includes('P') && this.drugs.includes('As')){
                 this.actionsPatients[groupPatient] = 'Dead';
             }else{
                 this.actionsPatients[groupPatient] = 'Remains';
                 switch(groupPatient){
                     case 'D':
                         if(!this.drugs.includes('I')){
-                            this.actionsPatients[groupPatient] = 'Dead'
+                            this.actionsPatients[groupPatient] = 'Dead';
                         }
                         break;
                     case 'F':
                         if(this.drugs.includes('As') || this.drugs.includes('P')){
-                            this.actionsPatients[groupPatient] = 'Fever'
+                            this.actionsPatients[groupPatient] = 'Cured';
                         }
                         break;
                     case 'T':
                         if(this.drugs.includes('An')){
-                            this.actionsPatients[groupPatient] = 'Cured'
+                            this.actionsPatients[groupPatient] = 'Cured';
                         }
                         break;
+                    case 'H':
+                        if(this.drugs.includes('I') && this.drugs.includes('An')){
+                            this.actionsPatients[groupPatient] = 'Fever';
+                        }
                 }
             }
 
