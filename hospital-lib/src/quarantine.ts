@@ -4,46 +4,37 @@ export class Quarantine {
 
     private static readonly NOT_IMPLEMENTED_MESSAGE = 'Work, work.';
     patients:PatientsRegister = {};
-    drugs:Drugs[] = [];
+    drugs:Array<string> = [];
     fatal:Boolean = false;
     constructor(patients: PatientsRegister) {
         this.patients = patients;
         this.drugs = [];
     }
 
-    public setDrugs(drugs: Drugs[]): void {
+    public setDrugs(drugs: Array<string>): void {
         this.drugs = drugs;
     }
 
     public wait40Days(): void {
-        for (const drug of this.drugs) {
-            switch (drug) {
-                case Drugs.As:
-                    this.patients.F = Math.max(this.patients.F - 1, 0);
-                    break;
-                case Drugs.An:
-                    this.patients.T = Math.max(this.patients.T - 1, 0);
-                    break;
-                case Drugs.I:
-                    if (this.patients.D > 0) {
-                        this.patients.D--;
+        for(let groupPatient in this.patients){
+            switch(groupPatient){
+                case 'D':
+                    if(!this.drugs.includes('I')){
+                        this.patients['X']+=this.patients['D'];
+                        this.patients['D']-=this.patients['D'];
                     }
                     break;
-                case Drugs.P:
-                    if (this.drugs.includes(Drugs.As)) {
-                        this.patients.X += this.patients.F;
-                        this.patients.F = 0;
-                    } else {
-                        this.patients.F = Math.max(this.patients.F - 1, 0);
+                case 'F':
+                    if(this.drugs.includes('As') || this.drugs.includes('P')){
+                        this.patients['H'] += this.patients['F'];
+                        this.patients['F'] -= this.patients['F'];
                     }
-                    break;
-                default:
-                    break;
+                case 'T':
+                    if(this.drugs.includes('An')){
+                        this.patients['H'] += this.patients['T'];
+                        this.patients['T'] -= this.patients['T'];
+                    }
             }
-        }
-        if (this.drugs.includes(Drugs.I) && this.drugs.includes(Drugs.An)) {
-            this.patients.F += this.patients.H;
-            this.patients.H = 0;
         }
     }
     public report(): PatientsRegister {
