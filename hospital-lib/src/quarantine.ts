@@ -18,26 +18,27 @@ export class Quarantine {
 
     public wait40Days(): void {
         this.calculateActions();
-        let newPatients = {};
+        let newPatients:PatientsRegister = {
+            X: this.patients['D'],
+            F: 0, H: 0, D: 0, T: 0, 
+        };
         for(let groupPatient in this.patients){
             switch(this.actionsPatients[groupPatient]){
                 case 'Dead':
-                    this.patients['X']+=this.patients[groupPatient];
-                    this.patients[groupPatient]-=this.patients[groupPatient];
+                    newPatients['X'] += this.patients[groupPatient];
                     break;
                 case 'Cured':
-                    this.patients['H'] += this.patients[groupPatient];
-                    this.patients[groupPatient] -= this.patients[groupPatient]; 
+                    newPatients['H'] += this.patients[groupPatient];
                     break;
                 case 'Remains':
-                   //nothing to do
+                    newPatients[groupPatient] += this.patients[groupPatient];
                     break;
                 case 'Fever':
-                    this.patients['F'] += this.patients[groupPatient];
-                    this.patients[groupPatient] -= this.patients[groupPatient]; 
+                    newPatients['F'] += this.patients[groupPatient];
                     break;
             }
         }
+        this.patients = JSON.parse(JSON.stringify(newPatients));
     }
     public report(): PatientsRegister {
         return this.patients;
