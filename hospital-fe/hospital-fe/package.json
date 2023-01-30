@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "vue": "^3.2.45",
-    "hospital-lib": "file:../hospital-lib"
+    "hospital-lib": "../../hospital-lib"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",

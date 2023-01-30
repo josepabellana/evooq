@@ -1,10 +1,11 @@
 <script>
 const API_URL = `http://localhost:7200`;
-
+import { Quarantine } from 'hospital-lib';
 export default {
   data: () => ({
-    patients: null,
-    drugs:null
+    quarantine: Quarantine,
+    patients:{},
+    drugs:[]
   }),
 
   created() {
@@ -19,22 +20,47 @@ export default {
 
   methods: {
     async fetchData() {
-      const url = `${API_URL}/drugs`;
+      let patients = {
+        'F':0,
+        'X':0,
+        'T':0,
+        'H':0,
+        'D':0,
+      };
+      let url = `${API_URL}/patients`;
+      let response = await (await fetch(url)).json();
+      let arr = response.split(",");
+      for (let i = 0; i < arr.length; i++) {
+        if (patients[arr[i]]) patients[arr[i]] += 1;
+        else patients[arr[i]] = 1;
+      }
+      this.patients = patients;
+      let quarantine = new Quarantine(patients);
+      console.log(quarantine)
+      url = `${API_URL}/drugs`;
       this.drugs = await (await fetch(url)).json();
+      quarantine.setDrugs(this.drugs)
+      console.log(quarantine)
     },
-    
   },
 };
 </script>
 
 <template>
   <h1>Latest Vue Core Commits</h1>
-    <div id="app">
-      <button @click="fetchData">Retrieve drugs</button>
-    </div>
-  <template v-for="drug in drugs">
-    <label :for="drugs">{{ drug }}</label>
-  </template>
+  <div id="app">
+    <button @click="fetchData">Get Data</button>
+  </div>
+  <div>
+    Drugs:
+    <template v-for="drug in drugs">
+      <label :for="drugs"> {{ drug }}</label>
+    </template>
+  </div>
+  <div>
+  Patients:
+  <div v-for="(value, name) in patients">{{ name }}: {{ value }}</div>
+  </div>
 </template>
 
 <style>
