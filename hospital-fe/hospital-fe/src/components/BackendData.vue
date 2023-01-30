@@ -1,65 +1,40 @@
-<!--
-This example fetches latest Vue.js commits data from GitHub’s API and displays them as a list.
-You can switch between the two branches.
--->
-
 <script>
-const API_URL = `https://api.github.com/repos/vuejs/core/commits?per_page=3&sha=`
+const API_URL = `http://localhost:7200`;
 
 export default {
   data: () => ({
-    branches: ['main', 'v2-compat'],
-    currentBranch: 'main',
-    commits: null
+    patients: null,
+    drugs:null
   }),
 
   created() {
     // fetch on init
-    this.fetchData()
+    this.fetchData();
   },
 
   watch: {
     // re-fetch whenever currentBranch changes
-    currentBranch: 'fetchData'
+    currentBranch: "fetchData",
   },
 
   methods: {
     async fetchData() {
-      const url = `${API_URL}${this.currentBranch}`
-      this.commits = await (await fetch(url)).json()
+      const url = `${API_URL}/drugs`;
+      this.drugs = await (await fetch(url)).json();
     },
-    truncate(v) {
-      const newline = v.indexOf('\n')
-      return newline > 0 ? v.slice(0, newline) : v
-    },
-    formatDate(v) {
-      return v.replace(/T|Z/g, ' ')
-    }
-  }
-}
+    
+  },
+};
 </script>
 
 <template>
   <h1>Latest Vue Core Commits</h1>
-  <template v-for="branch in branches">
-    <input type="radio"
-      :id="branch"
-      :value="branch"
-      name="branch"
-      v-model="currentBranch">
-    <label :for="branch">{{ branch }}</label>
+    <div id="app">
+      <button @click="fetchData">Retrieve drugs</button>
+    </div>
+  <template v-for="drug in drugs">
+    <label :for="drugs">{{ drug }}</label>
   </template>
-  <p>vuejs/vue@{{ currentBranch }}</p>
-  <ul>
-    <li v-for="{ html_url, sha, author, commit } in commits">
-      <a :href="html_url" target="_blank" class="commit">{{ sha.slice(0, 7) }}</a>
-      - <span class="message">{{ truncate(commit.message) }}</span><br>
-      by <span class="author">
-        <a :href="author.html_url" target="_blank">{{ commit.author.name }}</a>
-      </span>
-      at <span class="date">{{ formatDate(commit.author.date) }}</span>
-    </li>
-  </ul>
 </template>
 
 <style>
